@@ -10,12 +10,8 @@ const routes = [
   {
     path: '/:chapters+',
     name: 'public',
-    component: Files
-  },
-  {
-    path: '/private/*',
-    name: 'private',
-    component: Files
+    component: Files,
+    breadcrumbs: route => ({ breadcrumbs: route.map((v, i) => '/' + route.slice(0,i).join('/')) })
   },
   {
     path: '/profile',
