@@ -6,7 +6,7 @@
     "scripts": {
         "build": "tsc -w",
         "lines": "find src/ -type f -exec cat {} \\; | wc -l",
-        "start": "npx nodemon --watch dist --watch views"
+        "start": "npx nodemon --watch dist"
     },
     "author": "",
     "license": "ISC",

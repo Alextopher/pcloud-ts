@@ -1,7 +1,6 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import serveIndex from 'serve-index';
 import mime from 'mime';
 
 export const indexRouter = express.Router({
