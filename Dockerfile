@@ -1,12 +1,12 @@
 FROM node as build
 WORKDIR /app
 
-COPY ./package.json /app/package.json
-COPY ./package-lock.json /app/package-lock.json
+COPY frontend/package.json /app/package.json
+COPY frontend/package-lock.json /app/package-lock.json
 
 RUN npm install
 
-COPY ./src /app/src
+COPY frontend/src /app/src
 RUN npm run build
 
 FROM nginx
