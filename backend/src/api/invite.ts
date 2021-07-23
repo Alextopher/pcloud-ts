@@ -12,8 +12,7 @@ export const inviteRouter = express.Router({
 
 inviteRouter.post('/create', authenticate, async (req, res) => {
     if (!req.body.path) {
-        res.sendStatus(400);
-        return;
+        return res.sendStatus(400);
     }
 
     // Generate random key
@@ -77,8 +76,7 @@ inviteRouter.delete('/:key', authenticate, async (req, res) => {
     let invite = await DownloadInvite.findByPk(req.params.key)
 
     if (!invite) {
-        res.sendStatus(400);
-        return;
+        return res.sendStatus(400);
     }
 
     invite.destroy();

@@ -17,7 +17,7 @@ app.use('/invite', redirectRouter);
 Promise.all([
     User.sync({force: true}),
     DownloadInvite.sync({force: true}),
-    Session.sync({force: true})
+    Session.sync()
 ]).then(() => {
     User.create({username: "mahonec", hash: bcrypt.hashSync("jackson"), isAdmin: true});
     app.listen(PORT, () => {

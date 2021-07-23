@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import { authRouter } from './auth';
 import { userRouter } from './user';
 import { inviteRouter } from './invite';
-import { storageRouter } from './storage';
+import { publicRouter } from './public';
 
 export const apiRouter = express.Router({
     strict: true
@@ -16,4 +16,4 @@ apiRouter.use(express.json());
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/user', userRouter);
 apiRouter.use('/invite', inviteRouter);
-apiRouter.use('/storage', storageRouter);
+apiRouter.use('/public', publicRouter);

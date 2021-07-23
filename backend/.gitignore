@@ -1,4 +1,5 @@
 /dist
 /storage
 /node_modules
+/tmp
 *.sqlite
