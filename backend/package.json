@@ -2,7 +2,7 @@
     "name": "private-cloud",
     "version": "1.0.0",
     "description": "",
-    "main": "dist/index.js",
+    "main": "dist/src/index.js",
     "scripts": {
         "build": "tsc -w",
         "lines": "find src/ -type f -exec cat {} \\; | wc -l",

@@ -1,24 +1,13 @@
 import request from 'supertest';
 import app from '../src/index';
 
-import bcrypt from 'bcryptjs';
-import User from '../src/models/user';
-
 describe('Login Endpoint', () => {
-    beforeAll(async () => {
-        await User.findByPk("mahonec").then(user => {
-            if (!user) {
-                User.create({ username: "mahonec", hash: bcrypt.hashSync("jackson"), isAdmin: true });
-            }
-        });
-    });
-
     it('/auth/login should succeed with correct creds', async () => {
         const res = await request(app)
             .post('/api/auth/login')
             .send({
-                username: "mahonec",
-                password: 'jackson'
+                username: "admin",
+                password: 'admin'
             })
         expect(res.statusCode).toEqual(200);
     });
@@ -27,8 +16,8 @@ describe('Login Endpoint', () => {
         const res = await request(app)
             .post('/api/auth/login')
             .send({
-                username: "mahonec",
-                passwd: 'jackson'
+                username: "admin",
+                passwd: 'admin'
             })
         expect(res.statusCode).toEqual(400);
     });
@@ -37,8 +26,8 @@ describe('Login Endpoint', () => {
         const res = await request(app)
             .post('/api/auth/login')
             .send({
-                username: "jackson",
-                password: 'jackson'
+                username: "missing",
+                password: 'missing'
             })
         expect(res.statusCode).toEqual(403);
     });
@@ -47,9 +36,20 @@ describe('Login Endpoint', () => {
         const res = await request(app)
             .post('/api/auth/login')
             .send({
-                username: "mahonec",
+                username: "admin",
                 password: 'WRONG'
             })
         expect(res.statusCode).toEqual(403);
     });
+
+    it('/auth/login creates a user session', async () => {
+        const res = await request(app)
+        .post('/api/auth/login')
+        .send({
+            username: "admin",
+            password: 'admin'
+        })
+
+        expect(res.headers['set-cookie'][0].startsWith('session'));
+    })
 });

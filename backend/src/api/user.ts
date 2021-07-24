@@ -7,7 +7,7 @@ export const userRouter = express.Router({
     strict: true
 });
 
-userRouter.get('/', async (_req, res) => {
+userRouter.get('/', authenticate, async (_req, res) => {
     let result = (await User.findAll()).map(user => {
         return {
             "username": user.username,
@@ -30,7 +30,7 @@ userRouter.post('/', authenticate, async (req, res) => {
     }
 
     // check body
-    if (!req.body.username || !req.body.password || !req.body.isAdmin) {
+    if (req.body.username === undefined || req.body.password === undefined || req.body.isAdmin  === undefined) {
         return res.sendStatus(400);
     }
 
@@ -65,6 +65,29 @@ userRouter.get('/:username', async (req, res) => {
     }
 });
 
+userRouter.delete('/:username', async (req, res) => {
+    // get user from session
+    let user: UserInstance = res.locals.user;
+
+    // only admins can create users
+    let isAdmin = user.isAdmin;
+
+    if (!isAdmin) {
+        return res.sendStatus(403);
+    }
+
+    let status = await User.findByPk(req.params.username).then(user => {
+        if (!user) {
+            return 404;
+        } else {
+            user.destroy()
+            return 200;
+        }
+    });
+
+    res.sendStatus(status);
+});
+
 // Updates password
 userRouter.post("/:username/password", authenticate, async (req, res) => {
     // get user from session
@@ -76,8 +99,15 @@ userRouter.post("/:username/password", authenticate, async (req, res) => {
     }
 
     if (bcrypt.compareSync(req.body.oldpass, user.hash)) {
-        user.update("hash", bcrypt.hashSync(req.body.newpass));
-        res.sendStatus(200);
+        let newHash = bcrypt.hashSync(req.body.newpass);
+
+        user.set("hash", newHash);
+        user.save().then(() => {
+            res.sendStatus(200);
+        }).catch((e) => {
+            console.log(e);
+            res.sendStatus(500);
+        })        
     } else {
         res.sendStatus(403);
     }

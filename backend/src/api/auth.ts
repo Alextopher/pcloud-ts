@@ -23,6 +23,7 @@ async function createNewSession(username: string, expires?: Date) : Promise<stri
     })
     .then(() => key)
     .catch((err) => {
+        console.log(err);
         return createNewSession(username, expires);
     })
 }
@@ -31,7 +32,6 @@ export const authRouter = express.Router({
     strict: true
 });
 
-// TODO: Add callback urls
 export const authenticate: RequestHandler = async function(req, res, next) {
     // Require session cookie
     if (!req.cookies.session) {
@@ -46,11 +46,12 @@ export const authenticate: RequestHandler = async function(req, res, next) {
 
     // check if the session has expired
     if (session.expires < new Date()) {
-        return session.destroy();
+        session.destroy();
+        return res.sendStatus(403);
     }
 
     session.update("expires", moment().add(1, 'h').toDate());
-    res.locals.user = session.user;
+    res.locals.user = await session.getUser();
 
     next();
 }
