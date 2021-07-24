@@ -10,28 +10,6 @@ export const inviteRouter = express.Router({
     strict: true
 });
 
-inviteRouter.post('/create', authenticate, async (req, res) => {
-    if (!req.body.path) {
-        return res.sendStatus(400);
-    }
-
-    // Generate random key
-    let key = base64url.encode(crypto.randomBytes(18));
-
-    // Convert expires field to actual time
-    let expires = req.body.expires ? moment().add(req.body.expires, "minutes").toDate() : undefined;
-
-    let invite = {
-        key: key,
-        path: req.body.path,
-        expires: expires,
-        uses: req.body.uses
-    }
-
-    DownloadInvite.create(invite);
-    res.send(key);
-});
-
 inviteRouter.get('/', authenticate, async (req, res) => {
     // Get all invite links
     let time = new Date();
@@ -52,6 +30,29 @@ inviteRouter.get('/', authenticate, async (req, res) => {
     });
 
     res.send(JSON.stringify(result));
+});
+
+inviteRouter.post('/', authenticate, async (req, res) => {
+    if (!req.body.path) {
+        return res.sendStatus(400);
+    }
+
+    // Generate random key
+    let key = base64url.encode(crypto.randomBytes(18));
+
+    // Convert expires field to actual time
+    let expires = req.body.expires ? moment().add(req.body.expires, "minutes").toDate() : undefined;
+
+    let invite = {
+        key: key,
+        path: req.body.path,
+        expires: expires,
+        uses: req.body.uses
+    }
+
+    DownloadInvite.create(invite);
+    res.status(201);
+    res.send(key);
 });
 
 inviteRouter.get('/:key', async (req, res) => {

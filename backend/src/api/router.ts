@@ -16,4 +16,5 @@ apiRouter.use(express.json());
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/user', userRouter);
 apiRouter.use('/invite', inviteRouter);
+apiRouter.use('/i', inviteRouter);
 apiRouter.use('/public', publicRouter);
