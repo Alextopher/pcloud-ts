@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import { authRouter } from './auth';
 import { userRouter } from './user';
 import { inviteRouter } from './invite';
+import { redirectRouter } from '../redirect';
 
 export const apiRouter = express.Router({
     strict: true
@@ -15,3 +16,4 @@ apiRouter.use(express.json());
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/user', userRouter);
 apiRouter.use('/invite', inviteRouter);
+apiRouter.use('/redirect', redirectRouter);

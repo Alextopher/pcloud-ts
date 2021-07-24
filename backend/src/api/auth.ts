@@ -22,7 +22,6 @@ async function createNewSession(username: string, expires?: Date) : Promise<stri
     })
     .then(() => key)
     .catch((err) => {
-        console.log(err);
         return createNewSession(username, expires);
     })
 }
