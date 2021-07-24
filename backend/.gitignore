@@ -2,4 +2,4 @@
 /storage
 /node_modules
 /tmp
-*.sqlite
+*.sqlite*
