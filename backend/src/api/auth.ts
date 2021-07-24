@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import moment from 'moment';
 
-import User, { UserInstance } from '../models/user';
+import User from '../models/user';
 import Session from '../models/session'
 
 // Adds a new user session to the database
@@ -12,8 +12,9 @@ async function createNewSession(username: string, expires?: Date) : Promise<stri
     let key = crypto.randomBytes(16).toString('hex');
 
     // default expires after 1 hour
-    if (!expires)
+    if (!expires) {
         expires = moment().add(1, 'h').toDate();
+    }
 
     return await Session.create({
         key: key,
@@ -34,12 +35,14 @@ export const authRouter = express.Router({
 export const authenticate: RequestHandler = async function(req, res, next) {
     // Require session cookie
     if (!req.cookies.session) {
-        return res.redirect('/login');
+        return res.sendStatus(403);
     }
 
     let session = await Session.findByPk(req.cookies.session);
 
-    if (!session) return res.redirect('/login');
+    if (!session) {
+        return res.sendStatus(403);
+    }
 
     // check if the session has expired
     if (session.expires < new Date()) {
@@ -71,50 +74,5 @@ authRouter.post('/login', async (req, res) => {
         return res.sendStatus(200);
     } else {
         return res.sendStatus(403);
-    }
-});
-
-authRouter.post('/create', authenticate, async (req, res) => {
-    // get user from session
-    let user: UserInstance = res.locals.user;
-
-    // only admins can create users
-    let isAdmin = user.isAdmin;
-
-    if (!isAdmin) {
-        return res.sendStatus(403);
-    }
-
-    // check body
-    if (!req.body.username || !req.body.password || !req.body.isAdmin) {
-        return res.sendStatus(400);
-    }
-
-    let result : Boolean = await User.create({username: req.body.username, hash: bcrypt.hashSync(req.body.password), isAdmin: req.body.isAdmin})
-        .then(() => true)
-        .catch(() => false);
-
-    // return success
-    if (result) {
-        res.sendStatus(201);
-    } else {
-        res.sendStatus(409);
-    }
-});
-
-authRouter.post("/password", authenticate, async (req, res) => {
-    // get user from session
-    let user: UserInstance = res.locals.user;
-
-    // check body
-    if (!req.body.oldpass || !req.body.newpass) {
-        return res.sendStatus(400);
-    }
-
-    if (bcrypt.compareSync(req.body.oldpass, user.hash)) {
-        user.update("hash", bcrypt.hashSync(req.body.newpass));
-        res.sendStatus(200);
-    } else {
-        res.sendStatus(403);
     }
 });
