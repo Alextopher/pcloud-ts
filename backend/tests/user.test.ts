@@ -68,5 +68,6 @@ describe('Logged in /user', () => {
             })
 
         expect(res.statusCode).toEqual(201);
+        
     });
 });

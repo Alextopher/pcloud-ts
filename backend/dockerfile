@@ -1,17 +1,27 @@
-FROM node:14-alpine
-
-# Add sqlite package
-RUN apk add sqlite
+FROM node:14-alpine as build
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /srv/app
 
 # Install app dependencies
 COPY package*.json ./
 RUN npm install
 
 # Compile project
-COPY . .
+COPY src src
 RUN npm run build
 
+FROM node:14-alpine
+
+# Add sqlite package
+RUN apk add sqlite
+
+# Create app directory
+WORKDIR /srv/app
+
+# Install production dependencies
+COPY package*.json ./
+RUN npm install --production
+
+# Run server
 CMD [ "node", "dist/index.js" ]

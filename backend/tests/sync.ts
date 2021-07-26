@@ -12,10 +12,10 @@ export default async function syncDB() {
     ]);
 
     if (!await User.findByPk("admin")) {
-        User.create({ username: "admin", hash: bcrypt.hashSync("admin"), isAdmin: true });
+        await User.create({ username: "admin", hash: bcrypt.hashSync("admin"), isAdmin: true });
     }
 
     if (!await User.findByPk("user")) {
-        User.create({ username: "user", hash: bcrypt.hashSync("user"), isAdmin: false });
+        await User.create({ username: "user", hash: bcrypt.hashSync("user"), isAdmin: false });
     }
 }
