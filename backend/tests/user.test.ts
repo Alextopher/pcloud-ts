@@ -1,3 +1,4 @@
+import User from '../src/models/user';
 import request from 'supertest';
 import app from '../src/index';
 import syncDB from './sync';
@@ -58,16 +59,44 @@ describe('Logged in /user', () => {
         expect(res.statusCode).toEqual(404);
     });
 
-    it('post /user creates a new user', async () => {
-        const res = await agent
-            .post('/api/user')
-            .send({
-                username: "test",
-                password: 'deleteme',
-                isAdmin: false
-            })
+    describe("/user endpoint", () => {
+        beforeAll(async () => {
+            // delete "newuser" and create "deleteuser"
+            await Promise.all([
+                User.findByPk("newuser").then(u => u?.destroy()),
+                User.create({ username: "deleteuser", hash: "deleteuser", isAdmin: false })
+            ]);
+        });
 
-        expect(res.statusCode).toEqual(201);
-        
+        afterAll(async () => {
+            // delete both users (just in case)
+            await Promise.all([
+                User.findByPk("newuser").then(u => u?.destroy()),
+                User.findByPk("deleteuser").then(u => u?.destroy())
+            ]);
+        })
+
+        it('post /user creates a new user', async () => {
+            const res = await agent
+                .post('/api/user')
+                .send({
+                    username: "newuser",
+                    password: 'newuser',
+                    isAdmin: false
+                })
+    
+            expect(res.statusCode).toEqual(201);
+            expect(await User.findByPk("newuser")).toBeTruthy();
+    
+            await User.findByPk("newuser").then(u => u?.destroy());
+        });
+    
+        it('delete /user/:username removes user from database', async () => {    
+            const res = await agent
+                .delete("/api/user/deleteuser")
+    
+            expect(res.statusCode).toEqual(200);
+            expect(await User.findByPk("deleteuser")).toBeFalsy();
+        });
     });
 });

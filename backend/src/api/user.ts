@@ -65,7 +65,7 @@ userRouter.get('/:username', async (req, res) => {
     }
 });
 
-userRouter.delete('/:username', async (req, res) => {
+userRouter.delete('/:username', authenticate, async (req, res) => {
     // get user from session
     let user: UserInstance = res.locals.user;
 
@@ -83,7 +83,10 @@ userRouter.delete('/:username', async (req, res) => {
             user.destroy()
             return 200;
         }
-    });
+    }).catch(e => {
+        console.log(e);
+        return 500;
+    })
 
     res.sendStatus(status);
 });
