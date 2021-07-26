@@ -3,12 +3,13 @@ FROM node:14-alpine as build
 # Create app directory
 WORKDIR /srv/app
 
-# Install app dependencies
+# Install app build dependencies
 COPY package*.json ./
 RUN npm install
 
 # Compile project
 COPY src src
+COPY tsconfig.json ./
 RUN npm run build
 
 FROM node:14-alpine
@@ -21,7 +22,9 @@ WORKDIR /srv/app
 
 # Install production dependencies
 COPY package*.json ./
-RUN npm install --production
+RUN npm install --only=prod
+
+COPY --from=build /srv/app/dist ./dist
 
 # Run server
-CMD [ "node", "dist/index.js" ]
+CMD [ "npm", "start" ]
