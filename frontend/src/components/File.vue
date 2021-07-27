@@ -1,14 +1,14 @@
 <template>
-    <a :href="'api' + $route.path + '/' + file.name"> 
+    <a :href="href"> 
         <li class="collection-item">
-            <div class="row">
-                <div class="col s8 gray">
+            <div class="row" style="margin: auto">
+                <div class="col s8">
                     {{file.name}}
                 </div>
-                <div class="col s1 gray">
+                <div class="col s1">
                     {{humanFileSize(file.stats.size)}}
                 </div>
-                <div class="col s3 gray">
+                <div class="col s3">
                     {{file.stats.mtime}}
                 </div>
             </div>
@@ -28,6 +28,15 @@ export default {
                 birthtime: Date,
                 isFile: Boolean,
                 isDirectory: Boolean
+            }
+        }
+    },
+    computed: {
+        href() {
+            if (this.file.stats.isDirectory) {
+                return this.$route.path + '/' + this.file.name
+            } else {
+                return '/api' + this.$route.path + '/' + this.file.name + '?download=true'
             }
         }
     },

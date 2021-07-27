@@ -1,6 +1,6 @@
 import * as VueRouter from 'vue-router'
-import Files from '../views/Files.vue'
-import About from '../views/About.vue'
+const Files = () => import('../views/Files.vue');
+const About = () => import('../views/About.vue');
 
 const routes = [
   {

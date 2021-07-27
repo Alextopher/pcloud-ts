@@ -1,10 +1,13 @@
 <template>
     <div>
         <breadcrumbs></breadcrumbs>
-        <ul class="collection">
+        <div v-if="error">
+            <h2>Folder not found</h2>
+        </div>
+        <ul v-else class="collection">
             <!-- Header  -->
             <li class="collection-item">
-                <div class="row">
+                <div class="row" style="margin: auto">
                     <div class="col s8 gray">
                         Name
                     </div>
@@ -54,8 +57,7 @@ export default {
             axios.get('http://localhost:3000/api' + folder).then(response => {
                 this.files = response.data;
                 this.loading = false;
-            }).catch(e => {
-                console.err(e);
+            }).catch(() => {
                 this.error = true;
             })
         }
