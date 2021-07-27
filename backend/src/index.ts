@@ -1,4 +1,5 @@
 import express from 'express';
+import history from 'connect-history-api-fallback';
 import bcrypt from 'bcryptjs';
 
 import User from './models/user';
@@ -6,13 +7,13 @@ import Session from './models/session'
 import DownloadInvite from './models/download_invite';
 
 import { apiRouter } from './api/router';
-import { redirectRouter } from './redirect';
 
 const app = express();
 const PORT = 3000;
 
+app.use(history());
+app.use(express.static("../frontend/dist"));
 app.use('/api', apiRouter);
-app.use('/invite', redirectRouter);
 
 if (process.env.NODE_ENV !== "test") {
     Promise.all([

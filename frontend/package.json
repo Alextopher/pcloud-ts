@@ -5,9 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "build:watch": "npx nodemon --ignore dist --ext '*' --exec npm run build",
+    "lint": "vue-cli-service lint",
+    "lines": "find src/ -type f -exec cat {} \\; | wc -l"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "vue": "^3.0.0",
