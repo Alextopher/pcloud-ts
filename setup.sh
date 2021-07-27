@@ -1,5 +1,3 @@
 #!/bin/bash
 
-mkdir storage
-mkdir storage/private
-mkdir storage/public
+mkdir -p storage/private storage/public

@@ -6,7 +6,7 @@
     "scripts": {
         "build": "npx tsc",
         "build:watch": "npx tsc -w",
-        "lines": "find src/ -type f -exec cat {} \\; | wc -l",
+        "lines": "find tests/ src/ -type f -exec cat {} \\; | wc -l",
         "start": "node .",
         "start:watch": "npx nodemon --watch dist",
         "test": "cross-env NODE_ENV=test; jest",
