@@ -4,7 +4,7 @@
     <div class="row">
       <li><div class="divider"></div></li>
     </div>
-    <side-nav-item :class="{active : isActive('/')}" :icon="'folder_shared'" :text="'public'" :href="'/'"></side-nav-item>
+    <side-nav-item :class="{active : isActive('/')}" :icon="'folder_shared'" :text="'public'" :href="'/public'"></side-nav-item>
     <side-nav-item :class="{active : isActive('/private')}" :icon="'folder'" :text="'private'" :href="'/private'"></side-nav-item>
     <side-nav-item :class="{active : isActive('/uploads')}" :icon="'upload'" :text="'uploads'" :href="'/uploads'"></side-nav-item>
 

@@ -34,7 +34,9 @@ publicRouter.get('/*', (req, res) => {
                     let s = {
                         size: stat.size,
                         mtime: stat.mtime,
-                        birthtime: stat.birthtime
+                        birthtime: stat.birthtime,
+                        isFile: stat.isFile(),
+                        isDirectory: stat.isDirectory()
                     };
                     return {name: file, stats: s}
                 });

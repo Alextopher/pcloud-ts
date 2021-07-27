@@ -1,10 +1,8 @@
 <template>
     <div>
         <breadcrumbs></breadcrumbs>
-        <ul>
-            <li v-for="file in files" :key="file">
-                <file :file="file"></file>
-            </li>
+        <ul class="collection">
+            <file v-for="file in files" :key="file" :file="file"></file>
         </ul>
     </div>
 </template>
@@ -43,9 +41,12 @@ export default {
             axios.get('http://localhost:3000/api' + folder).then(response => {
                 this.files = response.data;
                 this.loading = false;
+                console.log(response.data);
             }).catch(e => {
-                this.error = true;
                 console.error(e);
+                this.error = true;
+                // Mock data for testing
+                this.files = [{"name":"file1.txt","stats":{"size":14,"mtime":"2021-07-23T01:38:39.547Z","birthtime":"2021-07-23T01:38:39.547Z","isFile":true,"isDirectory":false}},{"name":"test.txt","stats":{"size":11,"mtime":"2021-07-23T00:36:04.158Z","birthtime":"2021-07-23T00:35:58.560Z","isFile":true,"isDirectory":false}}];
             })
         }
     }
