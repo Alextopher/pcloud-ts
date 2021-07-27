@@ -4,6 +4,10 @@ const About = () => import('../views/About.vue');
 
 const routes = [
   {
+    path: '/',
+    redirct: '/public'
+  },
+  {
     path: '/public/:chapters*',
     name: 'public',
     component: Files,
