@@ -54,7 +54,7 @@ export default {
             this.files = null;
             const folder = this.$route.path;
 
-            axios.get('http://localhost:3000/api' + folder).then(response => {
+            axios.get('/api' + folder).then(response => {
                 this.files = response.data;
                 this.loading = false;
             }).catch(() => {

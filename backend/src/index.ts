@@ -12,7 +12,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(history());
-app.use(express.static("../frontend/dist"));
+app.use(express.static("static"));
 app.use('/api', apiRouter);
 
 if (process.env.NODE_ENV !== "test") {
