@@ -77,3 +77,15 @@ authRouter.post('/login', async (req, res) => {
         return res.sendStatus(403);
     }
 });
+
+authRouter.post('/signout', authenticate, async (req, res) => {    
+    if (!req.cookies.session) {
+        return res.sendStatus(400);
+    }
+
+    Session.findByPk(req.cookies.session).then(s => {
+        s!.destroy();
+        res.clearCookie("session");
+        res.sendStatus(200);
+    })
+});

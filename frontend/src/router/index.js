@@ -1,6 +1,9 @@
 import * as VueRouter from 'vue-router'
+
 const Files = () => import('../views/Files.vue');
-const About = () => import('../views/About.vue');
+// const About = () => import('../views/About.vue');
+const Profile = () => import('../views/Profile.vue');
+const Login = () => import('../views/Login.vue');
 
 const routes = [
   {
@@ -22,12 +25,12 @@ const routes = [
   {
     path: '/profile',
     name: 'profile',
-    component: About
+    component: Profile
   },
   {
     path: '/uploads',
     name: 'uploads',
-    component: About
+    component: Login
   }
 ]
 
@@ -36,4 +39,4 @@ const router = VueRouter.createRouter({
   routes
 })
 
-export default router
+export default router;

@@ -52,6 +52,17 @@ describe('Logged in /user', () => {
         });
     });
 
+    it('get /user/me should return information about myself', async () => {
+        const res = await agent
+            .get('/api/user/me')
+        
+        expect(res.statusCode).toEqual(200);
+        expect(res.body).toEqual({
+            "username": "admin",
+            "isAdmin": true
+        });
+    });
+
     it('get /user/:username 404s on missing user', async () => {
         const res = await agent
             .get('/api/user/missing')

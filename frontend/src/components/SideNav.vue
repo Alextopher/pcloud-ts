@@ -1,23 +1,32 @@
 <template>
   <ul class="sidenav sidenav-fixed" style="z-index: 0">
-    <side-nav-item :class="{active : isActive('/profile')}" :icon="'account_circle'" :text="'mahonec'" :href="'/profile'"></side-nav-item>
+    <side-nav-item v-if="profile !== null" :class="{active : isActive('/profile')}" :icon="'account_circle'" :text="profile.username" :href="'/profile'"/>
+    <side-nav-button v-else :class="{active : isActive('/profile')}" :icon="'account_circle'" :text="'guest'" @trigger="$emit('showModal')"/>
+
     <div class="row">
       <li><div class="divider"></div></li>
     </div>
-    <side-nav-item :class="{active : isActive('/')}" :icon="'folder_shared'" :text="'public'" :href="'/public'"></side-nav-item>
-    <side-nav-item :class="{active : isActive('/private')}" :icon="'folder'" :text="'private'" :href="'/private'"></side-nav-item>
-    <side-nav-item :class="{active : isActive('/uploads')}" :icon="'upload'" :text="'uploads'" :href="'/uploads'"></side-nav-item>
+    <side-nav-item :class="{active : isActive('/')}" :icon="'folder_shared'" :text="'public'" :href="'/public'"/>
+    <side-nav-item v-if="profile !== null" :class="{active : isActive('/private')}" :icon="'folder'" :text="'private'" :href="'/private'"/>
+    <side-nav-item v-if="profile !== null" :class="{active : isActive('/uploads')}" :icon="'upload'" :text="'uploads'" :href="'/uploads'"/>
 
-    <side-nav-item :icon="'code'" :text="'source'" :href="'https://github.com/Alextopher/pcloud'"></side-nav-item>
+    <side-nav-item :icon="'code'" :text="'source'" :href="'https://github.com/Alextopher/pcloud'"/>
   </ul>
 </template>
 
 <script>
+import SideNavButton from './SideNavButton.vue';
 import SideNavItem from "./SideNavItem.vue";
 
 export default {
   name: "SideNav",
-  components: { SideNavItem },
+  components: { SideNavItem, SideNavButton },
+  props: {
+    profile: {
+      username: String,
+      isAdmin: Boolean
+    }
+  },
   data: () => ({
     isActive: function(page) {
       if (page === '/') {

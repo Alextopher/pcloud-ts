@@ -52,7 +52,7 @@ publicRouter.get('/*', (req, res) => {
                 res.setHeader("Content-Disposition", "attachment");
             }
 
-            res.sendFile(p, { root: __dirname + "../../../../" });
+            res.sendFile(p, { root: ".." });
         }
     });
 });
