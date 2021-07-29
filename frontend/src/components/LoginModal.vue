@@ -22,10 +22,11 @@ export default {
                 username: this.username,
                 password: this.password
             }).then(() => {
-                this.$emit('reload');
                 this.username = "";
                 this.password = "";
+                this.$store.dispatch('pullProfile');
                 this.$router.push({ name: 'profile' });
+                this.$emit('close');
             }).catch(() => {
                 this.$emit('close');
             });

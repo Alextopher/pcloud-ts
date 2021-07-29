@@ -4,13 +4,13 @@
     <top-nav> </top-nav>
     <div class="row">
       <div class="col s2">
-        <side-nav :profile="profile" @showModal="showModal = true"/>
+        <side-nav @showModal="showModal = true"/>
       </div>
       <div class="col s10">
-        <router-view @reload="getProfile()"/>
+          <router-view/>
       </div>
     </div>
-    <login-modal v-if="showModal" @reload="getProfile(); showModal = false" @close="showModal = false"/>
+    <login-modal v-if="showModal" @close="showModal = false"/>
   </div>
 </template>
 
@@ -19,7 +19,6 @@ import { defineAsyncComponent } from 'vue'
 
 import TopNav from "./components/TopNav.vue";
 import SideNav from "./components/SideNav.vue";
-import axios from 'axios';
 
 export default {
   name: "App",
@@ -31,7 +30,6 @@ export default {
   data: () => {
     return {
       showModal: false,
-      profile: null,
     }
   },
   mounted() {
@@ -47,12 +45,7 @@ export default {
   methods: {
     // Get user information about the current user
     getProfile() {
-      axios.get('/api/user/me').then(response => {
-        this.profile = response.data;
-        console.log(response.data);
-      }).catch(() => {
-        this.profile = null;
-      }) 
+      this.$store.dispatch('pullProfile');
     }
   }
 };

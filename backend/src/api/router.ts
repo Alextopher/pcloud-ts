@@ -20,3 +20,4 @@ apiRouter.use('/invite', inviteRouter);
 apiRouter.use('/redirect', redirectRouter);
 apiRouter.use('/public', makeFileServer("storage/public", false, true));
 apiRouter.use('/private', makeFileServer("storage/private", false, false));
+apiRouter.get('/coffee', (_, res) => res.sendStatus(418));

@@ -21,10 +21,9 @@ import SideNavItem from "./SideNavItem.vue";
 export default {
   name: "SideNav",
   components: { SideNavItem, SideNavButton },
-  props: {
-    profile: {
-      username: String,
-      isAdmin: Boolean
+  computed: {
+    profile () {
+      return this.$store.state.profile;
     }
   },
   data: () => ({

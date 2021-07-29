@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:watch": "npx nodemon --ignore dist --ext '*' --exec npm run build",
+    "build:watch": "vue-cli-service build --watch",
     "lint": "vue-cli-service lint",
     "lines": "find src/ -type f -exec cat {} \\; | wc -l"
   },
@@ -14,7 +14,8 @@
     "core-js": "^3.6.5",
     "materialize-css": "^1.0.0-rc.2",
     "vue": "^3.0.0",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

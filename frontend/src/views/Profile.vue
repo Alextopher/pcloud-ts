@@ -11,7 +11,7 @@ export default {
         signout() {
             axios.post('/api/auth/signout').then(() => {
                 this.$router.push('/public');
-                this.$emit("reload");
+                this.$store.dispatch('pullProfile');
             });
         }
     }
