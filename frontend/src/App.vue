@@ -1,52 +1,30 @@
 <template>
-  <div>
-    <!-- <button id="show-modal" @click="showModal = true">Show Modal</button> -->
-    <top-nav> </top-nav>
-    <div class="row">
-      <div class="col s2">
-        <side-nav @showModal="showModal = true"/>
-      </div>
-      <div class="col s10">
-          <router-view/>
-      </div>
-    </div>
-    <login-modal v-if="showModal" @close="showModal = false"/>
+  <div id="nav">
+    <router-link to="/">Home</router-link> |
+    <router-link to="/about">About</router-link>
   </div>
+  <router-view/>
 </template>
 
-<script>
-import { defineAsyncComponent } from 'vue'
+<style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
-import TopNav from "./components/TopNav.vue";
-import SideNav from "./components/SideNav.vue";
+#nav {
+  padding: 30px;
 
-export default {
-  name: "App",
-  components: {
-    TopNav,
-    SideNav,
-    LoginModal: defineAsyncComponent(() => import('./components/LoginModal.vue'))
-  },
-  data: () => {
-    return {
-      showModal: false,
-    }
-  },
-  mounted() {
-    let materialize = document.createElement("script");
-    materialize.setAttribute(
-      "src",
-      "/js/materialize.min.js"
-    );
-    document.head.appendChild(materialize);
+  a {
+    font-weight: bold;
+    color: #2c3e50;
 
-    this.getProfile()
-  },
-  methods: {
-    // Get user information about the current user
-    getProfile() {
-      this.$store.dispatch('pullProfile');
+    &.router-link-exact-active {
+      color: #42b983;
     }
   }
-};
-</script>
+}
+</style>
