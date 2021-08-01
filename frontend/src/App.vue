@@ -1,9 +1,22 @@
 <template>
-  <div>
-
-  </div>
+    <div>
+        <top-appbar/>
+    </div>
 </template>
 
-<style lang="scss">
+<script>
+import TopAppbar from "./components/TopAppbar.vue";
+export default {
+    components: { TopAppbar },
+};
+</script>
 
+<style lang="scss">
+html {
+    font-family: $font-stack;
+}
+
+div {
+    margin: 0;
+}
 </style>
