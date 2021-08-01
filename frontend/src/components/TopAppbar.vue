@@ -37,8 +37,16 @@ export default {
 <style lang="scss" scoped>
 @import "@materializecss/materialize/sass/components/_navbar.scss";
 
+nav {
+    position: fixed;
+    z-index: 1;
+
+    @extend .z-depth-1;
+}
+
 .brand-logo {
     margin-left: $gutter-width;
+    float: right;
 }
 
 li {
