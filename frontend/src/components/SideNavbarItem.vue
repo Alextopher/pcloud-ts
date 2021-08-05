@@ -19,9 +19,11 @@ export default {
 }
 </script>
 
-<style scoped>
-    .nomargin {
-        margin-left: 0 !important;
-        margin-right: 0 !important;
-    }
+<style lang="scss" scoped>
+@import "@materializecss/materialize/sass/components/_sidenav.scss";
+
+.nomargin {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
 </style>

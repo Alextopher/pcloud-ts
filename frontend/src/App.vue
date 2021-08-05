@@ -1,7 +1,10 @@
 <template>
     <div>
         <top-appbar/>
-        <side-navbar/>
+        <div class="row">
+            <side-navbar/>
+            <div class="router"> hello world </div>
+        </div>
     </div>
 </template>
 
@@ -18,7 +21,9 @@ html {
     font-family: $font-stack;
 }
 
-div {
-    margin: 0;
+.router {
+    position: absolute;
+    top: $navbar-height;
+    left: $sidenav-width;
 }
 </style>

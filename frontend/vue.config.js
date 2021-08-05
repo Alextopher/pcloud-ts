@@ -8,6 +8,8 @@ module.exports = {
                     @import "@materializecss/materialize/sass/components/_variables";
                     @import "@materializecss/materialize/sass/components/_normalize";
                     @import "@materializecss/materialize/sass/components/_global";
+                    @import "@materializecss/materialize/sass/components/_grid";
+                    @import "~/src/assets/variables.scss";
                 `
             }
         }
