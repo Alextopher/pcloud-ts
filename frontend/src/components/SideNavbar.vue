@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul v-if="profile == null" class="sidenav sidenav-fixed">
+        <ul v-if="profile != null" class="sidenav sidenav-fixed">
             <!-- User is logged in -->
             <side-navbar-item :text="'admin'" :icon="'account_circle'" :href="'/profile'"/>
             <div class="row"><li><div class="divider"></div></li></div>
@@ -13,7 +13,7 @@
 
         <ul v-else class="sidenav sidenav-fixed">
             <!-- Guest user -->
-            <side-navbar-item :text="'guest'" :icon="'account_circle'" :href="'/profile'"/>
+            <side-navbar-button :text="'guest'" :icon="'account_circle'" @trigger="$emit('showModal')"/>
             <div class="row"><li><div class="divider"></div></li></div>
             <side-navbar-item :text="'public'" :icon="'folder_shared'" :href="'/public'"/>
 
@@ -24,11 +24,18 @@
 
 <script>
 import SideNavbarItem from './SideNavbarItem.vue';
+import SideNavbarButton from './SideNavbarButton.vue';
 
 export default {
     components: {
-        SideNavbarItem
+        SideNavbarItem,
+        SideNavbarButton
     },
+    data: () => {
+        return {
+            profile: null,
+        }
+    }
 };
 </script>
 

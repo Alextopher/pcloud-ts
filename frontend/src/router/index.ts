@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 import Files from '../views/Files.vue'
+import Profile from '../views/Profile.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -14,6 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     name: 'private',
     component: Files,
     // breadcrumbs: route => ({ breadcrumbs: route.map((_, i) => '/' + route.slice(0,i).join('/')) })
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: Profile,
   },
 ]
 

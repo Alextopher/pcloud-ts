@@ -2,19 +2,27 @@
     <div>
         <top-appbar/>
         <div class="row">
-            <side-navbar/>
+            <side-navbar @showModal="showModal = true"/>
             <div class="router">
                 <router-view/>
             </div>
         </div>
+        <login-modal v-if="showModal" @close="showModal = false"/>
     </div>
 </template>
 
 <script>
 import SideNavbar from './components/SideNavbar.vue';
 import TopAppbar from "./components/TopAppbar.vue";
+import LoginModal from "./components/LoginModal.vue";
+
 export default {
-    components: { TopAppbar, SideNavbar },
+    components: { TopAppbar, SideNavbar, LoginModal },
+    data: () => {
+        return {
+            showModal: true,
+        }
+    },
 };
 </script>
 
