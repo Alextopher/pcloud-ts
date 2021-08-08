@@ -31,11 +31,11 @@ export default {
         SideNavbarItem,
         SideNavbarButton
     },
-    data: () => {
-        return {
-            profile: null,
+    computed: {
+        profile () {
+            return this.$store.state.profile;
         }
-    }
+    },
 };
 </script>
 

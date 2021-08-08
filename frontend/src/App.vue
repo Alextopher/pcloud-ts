@@ -20,7 +20,7 @@ export default {
     components: { TopAppbar, SideNavbar, LoginModal },
     data: () => {
         return {
-            showModal: true,
+            showModal: false,
         }
     },
 };
