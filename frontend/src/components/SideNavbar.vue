@@ -3,7 +3,7 @@
         <ul v-if="profile != null" class="sidenav sidenav-fixed">
             <!-- User is logged in -->
             <side-navbar-item :text="'admin'" :icon="'account_circle'" :href="'/profile'"/>
-            <div class="row"><li><div class="divider"></div></li></div>
+            <li><div class="divider"></div></li>
             <side-navbar-item :text="'public'" :icon="'folder_shared'" :href="'/public'"/>
             <side-navbar-item :text="'private'" :icon="'folder'" :href="'/private'"/>
             <side-navbar-item :text="'uploads'" :icon="'upload'" :href="'/uploads'"/>
@@ -14,7 +14,7 @@
         <ul v-else class="sidenav sidenav-fixed">
             <!-- Guest user -->
             <side-navbar-button :text="'guest'" :icon="'account_circle'" @trigger="$emit('showModal')"/>
-            <div class="row"><li><div class="divider"></div></li></div>
+            <li><div class="divider"></div></li>
             <side-navbar-item :text="'public'" :icon="'folder_shared'" :href="'/public'"/>
 
             <side-navbar-item :icon="'code'" :text="'source'" :href="'https://github.com/Alextopher/pcloud'"/>
@@ -40,6 +40,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/variables.scss';
 @import "@materializecss/materialize/sass/components/_sidenav.scss";
 
 .sidenav {
@@ -64,5 +65,9 @@ export default {
 
 .sidenav > .active {
     background-color: rgba(0, 0, 0, 0.05);
+}
+
+.divider {
+    margin-bottom: 28px !important;
 }
 </style>

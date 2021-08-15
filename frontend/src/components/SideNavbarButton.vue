@@ -20,6 +20,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/variables.scss';
 @import "@materializecss/materialize/sass/components/_sidenav.scss";
 
 .nomargin {

@@ -5,6 +5,10 @@ import Profile from '../views/Profile.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
+    path: '/',
+    redirect: '/public'
+  },
+  {
     path: '/public/:chapters*',
     name: 'public',
     component: Files,

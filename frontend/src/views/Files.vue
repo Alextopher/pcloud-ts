@@ -64,8 +64,12 @@ export default {
 }
 </script>
 
-<style scoped>
-    .row {
-        margin-bottom: 0;
-    }
+<style lang="scss" scoped>
+@import '@/assets/variables.scss';
+@import "@materializecss/materialize/sass/components/_global.scss";
+@import "@materializecss/materialize/sass/components/_grid.scss";
+
+.row {
+    margin-bottom: 0;
+}
 </style>

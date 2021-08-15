@@ -6,7 +6,7 @@
                     {{file.name + (file.stats.isDirectory ? '/' : '')}}
                 </div>
                 <div class="col s1">
-                    {{humanFileSize(file.stats.size)}}
+                    {{file.stats.isDirectory ? '----' : humanFileSize(file.stats.size)}}
                 </div>
                 <div class="col s3">
                     {{file.stats.mtime}}
@@ -48,17 +48,20 @@ export default {
 }
 </script>
 
-<style scoped>
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
+<style lang="scss" scoped>
+@import '@/assets/variables.scss';
+@import "@materializecss/materialize/sass/components/_global.scss";
+@import "@materializecss/materialize/sass/components/_grid.scss";
+a {
+    text-decoration: none;
+    color:rgba(0,0,0, 0.87) !important;
+}
 
-    li:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+li:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
 
-    .gray {
-        border: 2px dotted black;
-    }
+.gray {
+    border: 2px dotted black;
+}
 </style>

@@ -35,6 +35,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/variables.scss';
+@import "@materializecss/materialize/sass/components/_variables";
 @import "@materializecss/materialize/sass/components/_navbar.scss";
 
 nav {
