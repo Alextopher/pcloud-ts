@@ -9,7 +9,7 @@
             :key="item"
             class="breadcrumb"
           > {{ item }} </router-link>
-          <div style="float: right">
+          <div v-if="profile" style="float: right">
             <button @click="onPickFile">Upload file</button>
             <input
               type="file"
@@ -37,19 +37,24 @@ export default {
         v,
       ]);
     },
+    profile() {
+      return this.$store.state.profile;
+    }
   },
   methods: {
     onPickFile() {
       this.$refs.fileInput.click();
     },
-    onFilePicked(event) {
+    async onFilePicked(event) {
         let form = new FormData();
         form.append("upload", event.target.files[0]);
-        axios.post('/api' + this.$route.path)
-            .then(console.log)
-            .catch(console.log)
+        axios.post('/api' + this.$route.path, form, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
 
-        console.log(event);
+        this.$emit('reload');
     },
   },
 };

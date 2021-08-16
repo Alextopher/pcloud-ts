@@ -1,6 +1,6 @@
 <template>
     <div>
-        <breadcrumbs/>
+        <breadcrumbs @reload="fetchData()"/>
         <div class="router">
             <div v-if="error">
                 <h2>Folder not found</h2>

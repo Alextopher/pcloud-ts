@@ -3,10 +3,10 @@
         <li class="collection-item">
             <div class="row" style="margin: auto">
                 <div class="col s8">
-                    {{file.name + (file.stats.isDirectory ? '/' : '')}}
+                    {{file.name}}
                 </div>
                 <div class="col s1">
-                    {{file.stats.isDirectory ? '----' : humanFileSize(file.stats.size)}}
+                    {{humanFileSize(file.stats.size)}}
                 </div>
                 <div class="col s3">
                     {{file.stats.mtime}}
@@ -18,10 +18,10 @@
         <li class="collection-item">
             <div class="row" style="margin: auto">
                 <div class="col s8">
-                    {{file.name + (file.stats.isDirectory ? '/' : '')}}
+                    {{file.name + '/'}}
                 </div>
                 <div class="col s1">
-                    {{file.stats.isDirectory ? '----' : humanFileSize(file.stats.size)}}
+                    {{'-----'}}
                 </div>
                 <div class="col s3">
                     {{file.stats.mtime}}
@@ -57,7 +57,7 @@ export default {
     methods: {
         humanFileSize(size) {
             var i = Math.floor( Math.log(size) / Math.log(1024) );
-            return ( size / Math.pow(1024, i) ).toFixed(2) * 1 + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
+            return Math.round(size / Math.pow(1024, i)) + ' ' + ['B', 'kB', 'MB', 'GB', 'TB'][i];
         }
     }
 }

@@ -77,10 +77,12 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
 
     router.post('/*', upMiddleware, (req, res) => {
         if (req.files === undefined || req.files.upload === undefined) {
+            console.log("No files");
             return res.sendStatus(400);
         }
     
         if (req.files.upload instanceof Array) {
+            console.log("Too many files");
             return res.sendStatus(400);
         } else {
             let file = req.files.upload;
