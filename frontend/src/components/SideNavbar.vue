@@ -13,7 +13,7 @@
 
         <ul v-else class="sidenav sidenav-fixed">
             <!-- Guest user -->
-            <side-navbar-button :text="guest" :icon="'account_circle'" @trigger="$emit('showModal')"/>
+            <side-navbar-button text="guest" :icon="'account_circle'" @trigger="$emit('showModal')"/>
             <li><div class="divider"></div></li>
             <side-navbar-item :text="'public'" :icon="'folder_shared'" :href="'/public'"/>
 

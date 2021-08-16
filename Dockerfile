@@ -21,7 +21,7 @@ FROM node:14-alpine as frontend
 WORKDIR /srv/app
 
 # Install app build dependencies
-COPY frontend/package*.json ./
+COPY frontend/*.json ./
 RUN npm install
 
 COPY frontend/src src
