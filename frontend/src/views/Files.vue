@@ -1,37 +1,40 @@
 <template>
     <div>
-        <!-- <breadcrumbs/> -->
-        <div v-if="error">
-            <h2>Folder not found</h2>
+        <breadcrumbs/>
+        <div class="router">
+            <div v-if="error">
+                <h2>Folder not found</h2>
+            </div>
+            <ul v-else class="collection">
+                <!-- Header  -->
+                <li class="collection-item">
+                    <div class="row" style="margin: auto">
+                        <div class="col s8">
+                            Name
+                        </div>
+                        <div class="col s1">
+                            Size
+                        </div>
+                        <div class="col s3">
+                            Last Modified
+                        </div>
+                    </div>
+                </li>
+                <file v-for="file in files" :key="file" :file="file"></file>
+            </ul>
         </div>
-        <ul v-else class="collection">
-            <!-- Header  -->
-            <li class="collection-item">
-                <div class="row" style="margin: auto">
-                    <div class="col s8 gray">
-                        Name
-                    </div>
-                    <div class="col s1 gray">
-                        Size
-                    </div>
-                    <div class="col s3 gray">
-                        Last Modified
-                    </div>
-                </div>
-            </li>
-            <file v-for="file in files" :key="file" :file="file"></file>
-        </ul>
     </div>
 </template>
 
 <script>
-// import Breadcrumbs from '../components/Breadcrumbs.vue'
+import Breadcrumbs from '../components/Breadcrumbs.vue'
 import File from '../components/File.vue'
 import axios from "axios"
 
 export default {
     components: { 
-        File
+        File,
+        Breadcrumbs
     },
     data () {
         return {
@@ -71,5 +74,10 @@ export default {
 
 .row {
     margin-bottom: 0;
+}
+
+.router {
+    left: 0px;
+    margin: 0 $gutter-width;
 }
 </style>

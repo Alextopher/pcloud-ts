@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="router">
         <button @click="signout"> Sign Out </button>
     </div>
 </template>
@@ -18,3 +18,12 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/assets/variables.scss';
+
+.router {
+    left: 0px;
+    margin: 0 $gutter-width;
+}
+</style>

@@ -1,10 +1,10 @@
 <template>
     <div class="row nomargin">
         <li>
-            <a :href="href">
+            <router-link :to="href">
                 <i class="material-icons">{{icon}}</i>
                 <span style="margin: auto">{{text}}</span>
-            </a>
+            </router-link>
         </li>
     </div>
 </template>

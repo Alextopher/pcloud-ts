@@ -1,5 +1,5 @@
-<template>
-    <a :href="href"> 
+<template v-if="file.stats.isDirectory">
+    <a v-if="!file.stats.isDirectory" :href="href"> 
         <li class="collection-item">
             <div class="row" style="margin: auto">
                 <div class="col s8">
@@ -14,6 +14,21 @@
             </div>
         </li>
     </a>
+    <router-link v-else :to="href">
+        <li class="collection-item">
+            <div class="row" style="margin: auto">
+                <div class="col s8">
+                    {{file.name + (file.stats.isDirectory ? '/' : '')}}
+                </div>
+                <div class="col s1">
+                    {{file.stats.isDirectory ? '----' : humanFileSize(file.stats.size)}}
+                </div>
+                <div class="col s3">
+                    {{file.stats.mtime}}
+                </div>
+            </div>
+        </li>
+    </router-link>
 </template>
 
 <script>

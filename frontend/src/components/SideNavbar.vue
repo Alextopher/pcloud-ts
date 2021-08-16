@@ -1,8 +1,8 @@
 <template>
     <div>
-        <ul v-if="profile != null" class="sidenav sidenav-fixed">
+        <ul v-if="profile !== ''" class="sidenav sidenav-fixed">
             <!-- User is logged in -->
-            <side-navbar-item :text="'admin'" :icon="'account_circle'" :href="'/profile'"/>
+            <side-navbar-item :text="profile.username" :icon="'account_circle'" :href="'/profile'"/>
             <li><div class="divider"></div></li>
             <side-navbar-item :text="'public'" :icon="'folder_shared'" :href="'/public'"/>
             <side-navbar-item :text="'private'" :icon="'folder'" :href="'/private'"/>
@@ -13,7 +13,7 @@
 
         <ul v-else class="sidenav sidenav-fixed">
             <!-- Guest user -->
-            <side-navbar-button :text="'guest'" :icon="'account_circle'" @trigger="$emit('showModal')"/>
+            <side-navbar-button :text="guest" :icon="'account_circle'" @trigger="$emit('showModal')"/>
             <li><div class="divider"></div></li>
             <side-navbar-item :text="'public'" :icon="'folder_shared'" :href="'/public'"/>
 

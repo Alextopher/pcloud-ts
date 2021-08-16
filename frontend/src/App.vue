@@ -23,6 +23,9 @@ export default {
             showModal: false,
         }
     },
+    mounted () {
+        this.$store.dispatch('pullProfile');
+    }
 };
 </script>
 
@@ -38,6 +41,5 @@ html {
     top: $navbar-height;
     left: $sidenav-width;
     right: 0;
-    margin: 0 $gutter-width;
 }
 </style>

@@ -25,7 +25,6 @@ export default {
                 this.username = "";
                 this.password = "";
                 this.$store.dispatch('pullProfile');
-                this.$router.push({ name: 'profile' });
                 this.$emit('close');
             }).catch(() => {
                 this.$emit('close');

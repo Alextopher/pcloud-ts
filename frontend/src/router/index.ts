@@ -12,13 +12,11 @@ const routes: Array<RouteRecordRaw> = [
     path: '/public/:chapters*',
     name: 'public',
     component: Files,
-    // breadcrumbs: route => ({breadcrumbs: route.map((_, i) => '/' + route.slice(0,i).join('/'))})
   },
   {
     path: '/private/:chapters*',
     name: 'private',
     component: Files,
-    // breadcrumbs: route => ({ breadcrumbs: route.map((_, i) => '/' + route.slice(0,i).join('/')) })
   },
   {
     path: '/profile',
@@ -32,4 +30,4 @@ const router = createRouter({
   routes
 })
 
-export default router
+export default router;
