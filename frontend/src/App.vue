@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import SideNavbar from './components/SideNavbar.vue';
+import SideNavbar from './components/sidenav/SideNavbar.vue';
 import TopAppbar from "./components/TopAppbar.vue";
 import LoginModal from "./components/LoginModal.vue";
 

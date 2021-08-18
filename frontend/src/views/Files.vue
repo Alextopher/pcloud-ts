@@ -21,6 +21,20 @@
                     </div>
                 </li>
                 <file v-for="file in files" :key="file" :file="file"></file>
+                <!-- Footer for logged in users  -->
+                <li class="collection-item">
+                    <div class="row" style="margin: auto">
+                        <div class="col s8">
+                            Name
+                        </div>
+                        <div class="col s1">
+                            Size
+                        </div>
+                        <div class="col s3">
+                            Last Modified
+                        </div>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -79,5 +93,9 @@ export default {
 .router {
     left: 0px;
     margin: 0 $gutter-width;
+}
+
+.collection > :last-child {
+    border-top: 1px solid #e0e0e0;
 }
 </style>

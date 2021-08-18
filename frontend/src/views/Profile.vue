@@ -1,6 +1,6 @@
 <template>
     <div class="router">
-        <button @click="signout"> Sign Out </button>
+        <button @click="signout"> sign out </button>
     </div>
 </template>
 

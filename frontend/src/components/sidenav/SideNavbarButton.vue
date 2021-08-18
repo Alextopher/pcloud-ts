@@ -11,7 +11,6 @@
 
 <script>
 export default {
-    name: "SideNavButton",
     props: {
         icon: String,
         text: String,
