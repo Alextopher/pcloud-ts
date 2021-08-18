@@ -57,18 +57,21 @@ export default {
             this.$refs.fileInput.click();
         },
         onFilePicked(event) {
-            let form = new FormData();
-            console.log(event.target.files);
-            for (let i = 0; i < event.target.files.length; i++) {
-                form.append("upload" + i, event.target.files[i]);
+            // Upload each file as a seperate request            
+            let requests = []
+            for (let file of event.target.files) {
+                let form = new FormData();
+                form.set("upload", file);
+                let request = axios.post("/api" + this.$route.path, form, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                requests.push(request);
             }
-            axios.post("/api" + this.$route.path, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
 
-            this.$emit("reload");
+            // Wait for all requests to finish
+            Promise.all(requests).finally(() => this.$emit("reload"));
         },
         onPickFolder() {
             this.$refs.folderInput.click();
@@ -85,9 +88,7 @@ export default {
                 headers: {
                     "Content-Type": "multipart/form-data",
                 },
-            });
-
-            this.$emit("reload");
+            }).finally(() => this.$emit("reload"));
         },
     },
 };

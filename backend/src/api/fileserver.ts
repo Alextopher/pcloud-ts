@@ -88,8 +88,8 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
             let file = req.files.upload;
     
             let resolved = path.resolve(req.path);
-            let p = storage + resolved + req.files.upload.name;
-    
+            let p = storage + resolved + '/' + req.files.upload.name;
+
             fs.stat(p, (err, _) => {
                 if (err === null) {
                     return res.sendStatus(409); // Conflict
