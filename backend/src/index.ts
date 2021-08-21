@@ -1,5 +1,4 @@
 import express from 'express';
-import history from 'connect-history-api-fallback';
 import bcrypt from 'bcryptjs';
 
 import User from './models/user';
@@ -11,9 +10,11 @@ import { apiRouter } from './api/router';
 const app = express();
 const PORT = 3000;
 
-app.use(history());
-app.use(express.static("static"));
 app.use('/api', apiRouter);
+app.use(express.static("static"));
+app.get('*', (_, res) => {
+    res.sendFile("static/index.html", { root: __dirname + '../../..'});
+})
 
 if (process.env.NODE_ENV !== "test") {
     Promise.all([

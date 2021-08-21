@@ -2,6 +2,7 @@ import express, { RequestHandler, Router } from "express";
 import fileUpload from "express-fileupload";
 import fs from 'fs';
 import path from 'path';
+import archiver from 'archiver';
 import { authenticate } from "./auth";
 
 /**
@@ -41,6 +42,17 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
             }
     
             if (stats.isDirectory()) {
+                // if we're trying to download an entire folder send a zip file
+                if (!req.query.download) {
+                    const archive = archiver('zip', {
+                        zlib: { level: 9 }
+                    });
+
+                    archive.directory(p, "folder");
+                    archive.finalize().then(() => console.log(archive));
+                    res.setHeader("Content-Disposition", "attachment");
+                }
+
                 // get stats of all children
                 fs.readdir(p, (err, files) => {
                     if (err) {
@@ -77,17 +89,17 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
 
     router.post('/*', upMiddleware, (req, res) => {
         if (req.files === undefined || req.files.upload === undefined) {
-            console.log("No files");
             return res.sendStatus(400);
         }
-    
+
         if (req.files.upload instanceof Array) {
-            console.log("Too many files");
             return res.sendStatus(400);
+        }
+
+        let file = req.files.upload;
+        let resolved = path.resolve(req.path);
+        if (req.query.folder !== undefined) {
         } else {
-            let file = req.files.upload;
-    
-            let resolved = path.resolve(req.path);
             let p = storage + resolved + '/' + req.files.upload.name;
 
             fs.stat(p, (err, _) => {
@@ -100,6 +112,25 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
             })
         }
     });
+
+    router.put('/:folder', upMiddleware, (req, res) => {
+        let resolved = path.resolve(req.path);
+        let p = storage + resolved;
+
+        fs.stat(p, (err, _) => {
+            if (err === null) {
+                return res.sendStatus(409);
+            } else {
+                fs.mkdir(p, (err) => {
+                    if (err) {
+                        return res.sendStatus(500);
+                    } else {
+                        return res.sendStatus(200);
+                    }
+                })
+            }
+        });
+    })
 
     return router;
 }
