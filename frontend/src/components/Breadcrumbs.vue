@@ -38,8 +38,15 @@
 
 <script>
 import axios from "axios";
+import JSZip from "jszip";
+
 export default {
     name: "breadcrumbs",
+    data: () => {
+        return {
+            zipPercent: 0
+        }
+    },
     computed: {
         breadcrumbs() {
             let chapters = [this.$route.name, ...this.$route.params.chapters];
@@ -77,18 +84,38 @@ export default {
             this.$refs.folderInput.click();
         },
         onFolderPicked(event) {
-            let form = new FormData();
-            console.log(event.target.files);
+            var zip = new JSZip();
             for (let i = 0; i < event.target.files.length; i++) {
                 let file = event.target.files[i];
-                if (file.name == ".DS_Store") continue;
-                form.append(file.webkitRelativePath, file);
+                zip.file(file.webkitRelativePath, file.arrayBuffer())
             }
-            axios.post("/api" + this.$route.path, form, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            }).finally(() => this.$emit("reload"));
+
+            let name = event.target.files[0].webkitRelativePath.split('/')[0];
+
+            console.log("Done reading files");
+            zip.generateAsync({type:"blob", compression: "DEFLATE"}, (metadata) => {
+                if (Math.floor(metadata.percent) > this.zipPercent) {
+                    this.zipPercent = Math.floor(metadata.percent)
+                    console.log(this.zipPercent)
+                }
+            })
+            .then(function (blob) {
+                let file = new File([blob], name);
+                console.log(file);
+            });
+
+            // let form = new FormData();
+            // console.log(event.target.files);
+            // for (let i = 0; i < event.target.files.length; i++) {
+            //     let file = event.target.files[i];
+            //     if (file.name == ".DS_Store") continue;
+            //     form.append(file.webkitRelativePath, file);
+            // }
+            // axios.post("/api" + this.$route.path, form, {
+            //     headers: {
+            //         "Content-Type": "multipart/form-data",
+            //     },
+            // }).finally(() => this.$emit("reload"));
         },
     },
 };
@@ -101,6 +128,7 @@ export default {
 
 .breadcrumb {
     color: white;
+    position: sticky;
 }
 
 button {

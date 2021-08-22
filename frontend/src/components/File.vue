@@ -1,14 +1,14 @@
 <template v-if="file.stats.isDirectory">
     <a v-if="!file.stats.isDirectory" :href="href"> 
         <li class="collection-item">
-            <div class="row" style="margin: auto">
-                <div class="col s8">
+            <div class="container">
+                <div class="name">
                     {{file.name}}
                 </div>
-                <div class="col s1">
+                <div class="size">
                     {{humanFileSize(file.stats.size)}}
                 </div>
-                <div class="col s3">
+                <div class="mtime">
                     {{file.stats.mtime}}
                 </div>
             </div>
@@ -16,14 +16,14 @@
     </a>
     <router-link v-else :to="href">
         <li class="collection-item">
-            <div class="row" style="margin: auto">
-                <div class="col s8">
+            <div class="container">
+                <div class="name">
                     {{file.name + '/'}}
                 </div>
-                <div class="col s1">
+                <div class="size">
                     {{'-----'}}
                 </div>
-                <div class="col s3">
+                <div class="mtime">
                     {{file.stats.mtime}}
                 </div>
             </div>
@@ -76,7 +76,31 @@ li:hover {
     background-color: rgba(0, 0, 0, 0.1) !important;
 }
 
-.gray {
-    border: 2px dotted black;
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0px;
+
+    div {
+        &.name {
+            flex-grow: 1;
+        }
+
+        &.size {
+            position: relative;
+            width: 10%;
+            min-width: 50px;
+        }
+
+        &.mtime {
+            @media #{$small-and-down} {
+                display: none;
+            }
+            width: 20%;
+            min-width: 210px;
+        }
+    }
 }
 </style>

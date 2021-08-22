@@ -19,7 +19,6 @@
 
 <script>
 export default {
-    // eslint-disable-next-line
     data () {
         return {
             logo: {
@@ -41,21 +40,29 @@ export default {
 
 nav {
     position: fixed;
+    @media #{$small-and-down} {
+        position: absolute;
+    }
     z-index: 1;
 
     @extend .z-depth-1;
-}
+    .brand-logo {
+        margin-left: $gutter-width;
+        float: right;
+    }
 
-.brand-logo {
-    margin-left: $gutter-width;
-    float: right;
-}
+    ul {
+        @media #{$small-and-down} {
+            display: none;
+        }
 
-li {
-    float: right;
-}
+        li {
+            float: right;
 
-.active {
-    background-color: rgba(0,0,0,.1);
+            &.active {
+                background-color: rgba(0,0,0,.1);
+            }
+        }
+    }
 }
 </style>

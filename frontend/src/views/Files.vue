@@ -8,33 +8,19 @@
             <ul v-else class="collection">
                 <!-- Header  -->
                 <li class="collection-item">
-                    <div class="row" style="margin: auto">
-                        <div class="col s8">
+                    <div class="container">
+                        <div class="name">
                             Name
                         </div>
-                        <div class="col s1">
+                        <div class="size">
                             Size
                         </div>
-                        <div class="col s3">
+                        <div class="mtime">
                             Last Modified
                         </div>
                     </div>
                 </li>
                 <file v-for="file in files" :key="file" :file="file"></file>
-                <!-- Footer for logged in users  -->
-                <li class="collection-item">
-                    <div class="row" style="margin: auto">
-                        <div class="col s8">
-                            Name
-                        </div>
-                        <div class="col s1">
-                            Size
-                        </div>
-                        <div class="col s3">
-                            Last Modified
-                        </div>
-                    </div>
-                </li>
             </ul>
         </div>
     </div>
@@ -71,7 +57,9 @@ export default {
             const folder = this.$route.path;
 
             axios.get('/api' + folder).then(response => {
-                this.files = response.data;
+                this.files = response.data.sort((a, b) => {
+                    return a.stats.isDirectory < b.stats.isDirectory;
+                });
                 this.loading = false;
             }).catch(() => {
                 this.error = true;
@@ -95,7 +83,38 @@ export default {
     margin: 0 $gutter-width;
 }
 
-.collection > :last-child {
-    border-top: 1px solid #e0e0e0;
+.collection {
+    overflow: scroll;
+    > :last-child {
+        border-top: 1px solid #e0e0e0;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0px;
+
+    div {
+        &.name {
+            flex-grow: 1;
+        }
+
+        &.size {
+            position: relative;
+            width: 10%;
+            min-width: 50px;
+        }
+
+        &.mtime {
+            @media #{$small-and-down} {
+                display: none;
+            }
+            width: 20%;
+            min-width: 210px;
+        }
+    }
 }
 </style>

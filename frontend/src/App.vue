@@ -41,5 +41,13 @@ html {
     top: $navbar-height;
     left: $sidenav-width;
     right: 0;
+
+    @media #{$medium-and-down} {
+        left: 0px;
+    }
+
+    @media #{$small-and-down} {
+        top: $navbar-height-mobile;
+    }
 }
 </style>
