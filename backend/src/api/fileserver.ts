@@ -91,18 +91,35 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
     });
 
     router.post('/*', upMiddleware, (req, res) => {
-        if (req.files === undefined || req.files.upload === undefined) {
-            return res.sendStatus(400);
-        }
-
-        if (req.files.upload instanceof Array) {
-            return res.sendStatus(400);
-        }
-
-        let file = req.files.upload;
-        let resolved = path.resolve(req.path);
-        if (req.query.folder !== undefined) {
+        if (req.query.newfolder !== undefined) {
+            let resolved = path.resolve(req.path);
+            let p = storage + resolved;
+    
+            fs.stat(p, (err, _) => {
+                if (err !== null) {
+                    return res.sendStatus(409);
+                } else {
+                    fs.mkdir(p, {recursive: true}, (err) => {
+                        if (err) {
+                            return res.sendStatus(500);
+                        } else {
+                            return res.sendStatus(200);
+                        }
+                    })
+                }
+            });
         } else {
+            if (req.files === undefined || req.files.upload === undefined) {
+                return res.sendStatus(400);
+            }
+    
+            // Cannot handle uploading multiple files in the same request
+            if (req.files.upload instanceof Array) {
+                return res.sendStatus(400);
+            }
+    
+            let file = req.files.upload;
+            let resolved = path.resolve(req.path);    
             let p = storage + resolved + '/' + req.files.upload.name;
 
             fs.stat(p, (err, _) => {
@@ -112,28 +129,9 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
                     file.mv(p);
                     return res.sendStatus(201); // Created
                 }
-            })
+            });
         }
     });
-
-    router.put('/:folder', upMiddleware, (req, res) => {
-        let resolved = path.resolve(req.path);
-        let p = storage + resolved;
-
-        fs.stat(p, (err, _) => {
-            if (err === null) {
-                return res.sendStatus(409);
-            } else {
-                fs.mkdir(p, (err) => {
-                    if (err) {
-                        return res.sendStatus(500);
-                    } else {
-                        return res.sendStatus(200);
-                    }
-                })
-            }
-        });
-    })
 
     return router;
 }
