@@ -43,37 +43,40 @@ const makeFileServer = function(storage: string, anyoneUpload: boolean = false, 
     
             if (stats.isDirectory()) {
                 // if we're trying to download an entire folder send a zip file
-                if (!req.query.download) {
+                if (req.query.download) {
                     const archive = archiver('zip', {
-                        zlib: { level: 9 }
+                        zlib: { level: 1 }
                     });
 
-                    archive.directory(p, "folder");
-                    archive.finalize().then(() => console.log(archive));
-                    res.setHeader("Content-Disposition", "attachment");
+                    let chapters = p.split('/');
+                    archive.directory(p, chapters[chapters.length - 2]);
+                    archive.finalize().then(() => {
+                        archive.pipe(res);
+                        res.attachment("download.zip");
+                    });
+                } else {
+                    // get stats of all children
+                    fs.readdir(p, (err, files) => {
+                        if (err) {
+                            return res.sendStatus(500);
+                        }
+
+                        let stats = files.map(file => {
+                            let stat = fs.statSync(p + '/' + file);
+                            let s = {
+                                size: stat.size,
+                                mtime: stat.mtime,
+                                birthtime: stat.birthtime,
+                                isFile: stat.isFile(),
+                                isDirectory: stat.isDirectory()
+                            };
+                            return {name: file, stats: s}
+                        });
+
+                        res.setHeader("Content-Type", " application/json");
+                        res.send(stats);
+                    });
                 }
-
-                // get stats of all children
-                fs.readdir(p, (err, files) => {
-                    if (err) {
-                        return res.sendStatus(500);
-                    }
-    
-                    let stats = files.map(file => {
-                        let stat = fs.statSync(p + '/' + file);
-                        let s = {
-                            size: stat.size,
-                            mtime: stat.mtime,
-                            birthtime: stat.birthtime,
-                            isFile: stat.isFile(),
-                            isDirectory: stat.isDirectory()
-                        };
-                        return {name: file, stats: s}
-                    });
-    
-                    res.setHeader("Content-Type", " application/json");
-                    res.send(stats);
-                });
             } else {
                 // show or download file
                 if (!req.query.download) {
