@@ -60,6 +60,7 @@ export default {
                 this.files = response.data.sort((a, b) => {
                     return a.stats.isDirectory < b.stats.isDirectory;
                 });
+                this.error = false;
                 this.loading = false;
             }).catch(() => {
                 this.error = true;
