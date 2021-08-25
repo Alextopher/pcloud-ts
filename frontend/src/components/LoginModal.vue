@@ -3,8 +3,13 @@
     <div class="wrapper">
       <div class="container">
         <input v-model="username" type="text" placeholder="username" />
-        <input v-model="password" type="password" placeholder="password" />
-        <button @click="login()">Login</button>
+        <input
+          v-on:keyup="loginOnEnter"
+          v-model="password"
+          type="password"
+          placeholder="password"
+        />
+        <button ref="submit" type="submit" @click="login()">Login</button>
         <button @click="$emit('close')" style="float:right">Cancel</button>
       </div>
     </div>
@@ -12,20 +17,28 @@
 </template>
 
 <script>
-import axios from "axios";
+import { post } from "axios";
 
 export default {
   name: "LoginModal",
+  data: () => {
+    return {
+      username: "",
+      password: "",
+    };
+  },
   methods: {
+    loginOnEnter(e) {
+      if (e.keyCode === 13) this.login();
+      console.log(e);
+    },
+
     login() {
-      axios
-        .post("/api/auth/login", {
-          username: this.username,
-          password: this.password,
-        })
+      post("/api/auth/login", {
+        username: this.username,
+        password: this.password,
+      })
         .then(() => {
-          this.username = "";
-          this.password = "";
           this.$store.dispatch("pullProfile");
           this.$emit("close");
         })
@@ -33,6 +46,9 @@ export default {
           this.$emit("close");
         });
     },
+  },
+  mounted() {
+    this.$refs["submit"].focus();
   },
 };
 </script>
@@ -70,7 +86,7 @@ export default {
 
 input {
   width: 100%;
-  border: solid;
+  margin-top: 5px;
 }
 
 button {
