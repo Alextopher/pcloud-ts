@@ -9,8 +9,8 @@
         "lines": "find tests/ src/ -type f -exec cat {} \\; | wc -l",
         "start": "node .",
         "start:watch": "npx nodemon --watch dist",
-        "test": "cross-env NODE_ENV=test; jest",
-        "test:watch": "cross-env NODE_ENV=test; jest --watch"
+        "test": "cross-env NODE_ENV=test; jest --no-watchman",
+        "test:watch": "cross-env NODE_ENV=test; jest --watch --no-watchman"
     },
     "author": "",
     "license": "ISC",
