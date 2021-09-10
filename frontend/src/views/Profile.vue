@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import axios from "axios";
+import { post } from "axios";
 
 export default {
   methods: {
     signout() {
-      axios.post("/api/auth/signout").then(() => {
+      post("/api/auth/signout").then(() => {
         this.$router.push("/public");
         this.$store.dispatch("pullProfile");
       });

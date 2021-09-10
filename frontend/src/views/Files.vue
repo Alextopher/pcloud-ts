@@ -23,18 +23,21 @@
         <file v-for="file in files" :key="file" :file="file"></file>
       </ul>
     </div>
+    <rightclick-menu :top="100" :left="100" />
   </div>
 </template>
 
 <script>
-import Breadcrumbs from "../components/Breadcrumbs.vue";
-import File from "../components/File.vue";
-import axios from "axios";
+import Breadcrumbs from "../components/files/Breadcrumbs.vue";
+import File from "../components/files/File.vue";
+import RightclickMenu from "../components/files/RightclickMenu.vue";
+import { get } from "axios";
 
 export default {
   components: {
     File,
     Breadcrumbs,
+    RightclickMenu,
   },
   data() {
     return {
@@ -56,8 +59,7 @@ export default {
       this.files = null;
       const folder = this.$route.path;
 
-      axios
-        .get("/api" + folder)
+      get("/api" + folder)
         .then((response) => {
           this.files = response.data.sort((a, b) => {
             return a.stats.isDirectory < b.stats.isDirectory;

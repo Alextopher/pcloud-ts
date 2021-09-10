@@ -90,7 +90,8 @@ export default {
         zip.file(file.webkitRelativePath, file.arrayBuffer());
       }
 
-      let name = event.target.files[0].webkitRelativePath.split("/")[0];
+      let name =
+        event.target.files[0].webkitRelativePath.split("/")[0] + ".zip";
 
       console.log("Done reading files");
       zip
@@ -100,23 +101,19 @@ export default {
             console.log(this.zipPercent);
           }
         })
-        .then(function(blob) {
+        .then((blob) => {
           let file = new File([blob], name);
           console.log(file);
-        });
 
-      // let form = new FormData();
-      // console.log(event.target.files);
-      // for (let i = 0; i < event.target.files.length; i++) {
-      //     let file = event.target.files[i];
-      //     if (file.name == ".DS_Store") continue;
-      //     form.append(file.webkitRelativePath, file);
-      // }
-      // axios.post("/api" + this.$route.path, form, {
-      //     headers: {
-      //         "Content-Type": "multipart/form-data",
-      //     },
-      // }).finally(() => this.$emit("reload"));
+          let form = new FormData();
+          form.set("upload", file);
+          let request = axios.post("/api" + this.$route.path, form, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+          request.finally(() => this.$emit("reload"));
+        });
     },
   },
 };
