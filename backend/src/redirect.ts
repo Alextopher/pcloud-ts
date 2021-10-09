@@ -1,12 +1,12 @@
 import express from "express";
-import DownloadInvite from "./models/download_invite";
+import Invite from "./models/invite";
 
 export const redirectRouter = express.Router({
   strict: true,
 });
 
 redirectRouter.get("/:key", async (req, res) => {
-  let invite = await DownloadInvite.findByPk(req.params.key);
+  let invite = await Invite.findByPk(req.params.key);
 
   if (!invite) {
     res.sendStatus(404);

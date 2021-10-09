@@ -19,11 +19,7 @@
         :icon="'folder'"
         :href="'/private'"
       />
-      <side-navbar-route
-        :text="'uploads'"
-        :icon="'upload'"
-        :href="'/uploads'"
-      />
+      <side-navbar-route :text="'invites'" :icon="'link'" :href="'/invites'" />
 
       <side-navbar-link
         :icon="'code'"

@@ -41,7 +41,6 @@ import axios from "axios";
 import JSZip from "jszip";
 
 export default {
-  name: "breadcrumbs",
   data: () => {
     return {
       zipPercent: 0,
@@ -93,12 +92,11 @@ export default {
       let name =
         event.target.files[0].webkitRelativePath.split("/")[0] + ".zip";
 
-      console.log("Done reading files");
       zip
         .generateAsync({ type: "blob", compression: "DEFLATE" }, (metadata) => {
           if (Math.floor(metadata.percent) > this.zipPercent) {
             this.zipPercent = Math.floor(metadata.percent);
-            console.log(this.zipPercent);
+            // TODO use zip percent for fancy loading screen
           }
         })
         .then((blob) => {

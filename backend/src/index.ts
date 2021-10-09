@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 
 import User from "./models/user";
 import Session from "./models/session";
-import DownloadInvite from "./models/download_invite";
+import Invite from "./models/invite";
 
 import { apiRouter } from "./api/router";
 
@@ -19,7 +19,7 @@ app.get("*", (_, res) => {
 if (process.env.NODE_ENV !== "test") {
   Promise.all([
     User.sync({ force: true }),
-    DownloadInvite.sync({ force: true }),
+    Invite.sync({ force: true }),
     Session.sync({ force: true }),
   ]).then(() => {
     User.create({

@@ -55,7 +55,7 @@ userRouter.post("/", authenticate, async (req, res) => {
 });
 
 // Special case endpoint where an authenticated user gets results about themself
-// WARNING: order matters. `/me` must run be before `/:username`
+// WARNING: the order of these two functions matter. `/me` must run be before `/:username`
 userRouter.get("/me", authenticate, async (req, res) => {
   let user = res.locals.user;
 
@@ -67,6 +67,7 @@ userRouter.get("/me", authenticate, async (req, res) => {
   res.send(result);
 });
 
+// Get information about a specific user
 userRouter.get("/:username", async (req, res) => {
   let result = await User.findByPk(req.params.username).then((user) => {
     if (!user) {

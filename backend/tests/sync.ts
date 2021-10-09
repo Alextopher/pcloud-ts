@@ -2,10 +2,10 @@ import bcrypt from "bcryptjs";
 
 import User from "../src/models/user";
 import Session from "../src/models/session";
-import DownloadInvite from "../src/models/download_invite";
+import Invite from "../src/models/invite";
 
 export default async function syncDB() {
-  await Promise.all([User.sync(), Session.sync(), DownloadInvite.sync()]);
+  await Promise.all([User.sync(), Session.sync(), Invite.sync()]);
 
   if (!(await User.findByPk("admin"))) {
     await User.create({
